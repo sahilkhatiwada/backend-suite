@@ -1,10 +1,23 @@
 {
   "name": "backend-suite",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "turbo run test"
+    "dev": "turbo run dev --parallel",
+    "test": "turbo run test",
+    "test:integration": "vitest run test/integration/**/*.test.ts",
+    "coverage": "vitest run --coverage",
+    "lint": "turbo run lint",
+    "build": "turbo run build"
+  },
+  "lint-staged": {
+    "*.ts": ["eslint --fix", "prettier --write"]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "keywords": [],
   "author": "sahil khatiwada",
