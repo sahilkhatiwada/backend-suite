@@ -1,0 +1,30 @@
+{
+  "name": "@backend-suite/rate-limiter",
+  "version": "0.1.0",
+  "description": "IP, user, and route-based rate limiting with token bucket and Redis adapter.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "rate-limiter",
+    "token-bucket",
+    "redis",
+    "express",
+    "koa"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0",
+    "ioredis": "^5.6.1",
+    "koa": "^3.0.0"
+  }
+}
