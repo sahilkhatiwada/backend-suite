@@ -11,8 +11,13 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
+    "@types/node": "^24.0.13",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
     "eslint": "^9.31.0",
     "prettier": "^3.6.2",
-    "turbo": "^2.5.4"
+    "tsup": "^8.5.0",
+    "turbo": "^2.5.4",
+    "vitest": "^3.2.4"
   }
 }

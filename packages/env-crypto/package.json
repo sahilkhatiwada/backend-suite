@@ -1,0 +1,28 @@
+{
+  "name": "@backend-suite/env-crypto",
+  "version": "0.1.0",
+  "description": "Encrypt/decrypt .env files with AES-256, CLI and programmatic API.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "env",
+    "encryption",
+    "aes",
+    "crypto"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "yargs": "^18.0.0"
+  }
+}
