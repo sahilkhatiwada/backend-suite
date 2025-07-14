@@ -1,29 +1,33 @@
 
-> @backend-suite/env-crypto@0.1.0 test C:\Users\ACER\Desktop\backend-suite\packages\env-crypto
+> @backend-suite/env-crypto@0.2.0 test C:\Users\ACER\Desktop\backend-suite\packages\env-crypto
 > vitest
 
 
 [1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mC:/Users/ACER/Desktop/backend-suite/packages/env-crypto[39m
 
+ [31m❯[39m test/index.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 34[2mms[22m[39m
+   [32m✓[39m env-crypto[2m > [22mshould encrypt and decrypt .env file correctly[32m 15[2mms[22m[39m
+[31m   [31m×[31m env-crypto[2m > [22mshould throw on wrong password[39m[32m 17[2mms[22m[39m
+[31m     → expected [Function] to throw an error[39m
 
-[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
 
+[41m[1m FAIL [22m[49m test/index.test.ts[2m > [22menv-crypto[2m > [22mshould throw on wrong password
+[31m[1mAssertionError[22m: expected [Function] to throw an error[39m
+[36m [2m❯[22m test/index.test.ts:[2m30:61[22m[39m
+    [90m 28| [39m    fs[33m.[39m[34mwriteFileSync[39m(envFile[33m,[39m [32m'SECRET=123\nFOO=bar'[39m)[33m;[39m
+    [90m 29| [39m    [34mencryptEnvFile[39m(envFile[33m,[39m encFile[33m,[39m password)[33m;[39m
+    [90m 30| [39m    [34mexpect[39m(() [33m=>[39m [34mdecryptEnvFile[39m(encFile[33m,[39m decFile[33m,[39m [32m'wrong'[39m))[33m.[39m[34mtoThrow[39m()[33m;[39m
+    [90m   | [39m                                                            [31m^[39m
+    [90m 31| [39m    [envFile[33m,[39m encFile[33m,[39m decFile][33m.[39m[34mforEach[39m((f) [33m=>[39m {
+    [90m 32| [39m      [35mif[39m (fs[33m.[39m[34mexistsSync[39m(f)) fs[33m.[39m[34munlinkSync[39m(f)[33m;[39m
 
-[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
-[2m      Tests [22m [2mno tests[22m
-[2m   Start at [22m 22:11:24
-[2m   Duration [22m 1.75s[2m (transform 237ms, setup 0ms, collect 0ms, tests 0ms, environment 0ms, prepare 500ms)[22m
-[41m[1m FAIL [22m[49m test/index.test.ts[2m [ test/index.test.ts ][22m
-[31m[1mReferenceError[22m: beforeAll is not defined[39m
-
-[36m [2m❯[22m test/index.test.ts:[2m13:3[22m[39m
-    [90m 11| [39m  [35mconst[39m password [33m=[39m [32m'test-password'[39m[33m;[39m
-    [90m 12| [39m
-    [90m 13| [39m  [34mbeforeAll[39m(() [33m=>[39m {
-    [90m   | [39m  [31m^[39m
-    [90m 14| [39m    [35mif[39m ([33m![39mfs[33m.[39m[34mexistsSync[39m(tempDir)) fs[33m.[39m[34mmkdirSync[39m(tempDir)[33m;[39m
-    [90m 15| [39m    fs[33m.[39m[34mwriteFileSync[39m(envFile[33m,[39m [32m'SECRET=123\nFOO=bar'[39m)[33m;[39m
 
 [31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m 23:49:18
+[2m   Duration [22m 2.05s[2m (transform 134ms, setup 0ms, collect 392ms, tests 34ms, environment 0ms, prepare 484ms)[22m
 
  ELIFECYCLE  Test failed. See above for more details.
