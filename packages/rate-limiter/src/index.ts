@@ -1,3 +1,12 @@
+// TODO:
+// - Implement in-memory token bucket algorithm
+// - Implement Redis adapter for distributed rate limiting
+// - Add Express middleware
+// - Add Koa middleware
+// - Add configuration for per-route limits
+// - Add tests for all strategies
+// - Add usage examples
+
 /**
  * Token bucket rate limiter (in-memory)
  */

@@ -1,0 +1,28 @@
+{
+  "name": "@backend-suite/logger",
+  "version": "0.1.0",
+  "description": "Structured logger with Pino wrapper, multiple output modes, and named instances.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "logger",
+    "pino",
+    "winston",
+    "structured-logging"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "pino": "^9.7.0",
+    "winston": "^3.17.0"
+  }
+}
