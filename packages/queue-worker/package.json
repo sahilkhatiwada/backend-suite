@@ -1,0 +1,19 @@
+{
+  "name": "@backend-suite/queue-worker",
+  "version": "0.1.0",
+  "description": "Job and queue processing utilities.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["queue", "worker", "job"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+} 
