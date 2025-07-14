@@ -11,8 +11,20 @@ import type { Request, Response, NextFunction } from 'express';
 import type { Context, Next as KoaNext } from 'koa';
 import Redis from 'ioredis';
 
-// In-memory token bucket implementation
-export function createTokenBucketLimiter({ tokensPerInterval, interval }: { tokensPerInterval: number; interval: 'second' | 'minute' | 'hour'; }) {
+/**
+ * Options for the in-memory token bucket limiter.
+ */
+export interface TokenBucketOptions {
+  tokensPerInterval: number;
+  interval: 'second' | 'minute' | 'hour';
+}
+
+/**
+ * In-memory token bucket rate limiter.
+ * @param options - Token bucket options
+ * @returns An object with an allow(key) method
+ */
+export function createTokenBucketLimiter({ tokensPerInterval, interval }: TokenBucketOptions) {
   const buckets = new Map<string, { tokens: number; lastRefill: number }>();
   const intervalMs = interval === 'second' ? 1000 : interval === 'minute' ? 60000 : 3600000;
 
@@ -40,8 +52,21 @@ export function createTokenBucketLimiter({ tokensPerInterval, interval }: { toke
   return { allow };
 }
 
-// Redis adapter for distributed rate limiting
-export function createRedisRateLimiter({ redis, tokensPerInterval, interval }: { redis: Redis; tokensPerInterval: number; interval: 'second' | 'minute' | 'hour'; }) {
+/**
+ * Options for the Redis rate limiter.
+ */
+export interface RedisRateLimiterOptions {
+  redis: Redis;
+  tokensPerInterval: number;
+  interval: 'second' | 'minute' | 'hour';
+}
+
+/**
+ * Redis adapter for distributed rate limiting.
+ * @param options - Redis rate limiter options
+ * @returns An object with an async allow(key) method
+ */
+export function createRedisRateLimiter({ redis, tokensPerInterval, interval }: RedisRateLimiterOptions) {
   const intervalSec = interval === 'second' ? 1 : interval === 'minute' ? 60 : 3600;
   return {
     async allow(key: string): Promise<boolean> {
@@ -62,10 +87,14 @@ export function createRedisRateLimiter({ redis, tokensPerInterval, interval }: {
   };
 }
 
-// Express middleware
+/**
+ * Express middleware for rate limiting.
+ * @param options - Limiter and optional key function
+ * @returns Express middleware function
+ */
 export function expressRateLimiter({ limiter, keyFn }: { limiter: { allow: (key: string) => boolean | Promise<boolean> }; keyFn?: (req: Request) => string }) {
   return async function (req: Request, res: Response, next: NextFunction) {
-    const key = keyFn ? keyFn(req) : req.ip;
+    const key = (keyFn ? keyFn(req) : req.ip) ?? '';
     const allowed = await limiter.allow(key);
     if (!allowed) {
       res.status(429).send('Too Many Requests');
@@ -75,7 +104,11 @@ export function expressRateLimiter({ limiter, keyFn }: { limiter: { allow: (key:
   };
 }
 
-// Koa middleware
+/**
+ * Koa middleware for rate limiting.
+ * @param options - Limiter and optional key function
+ * @returns Koa middleware function
+ */
 export function koaRateLimiter({ limiter, keyFn }: { limiter: { allow: (key: string) => boolean | Promise<boolean> }; keyFn?: (ctx: Context) => string }) {
   return async function (ctx: Context, next: KoaNext) {
     const key = keyFn ? keyFn(ctx) : ctx.ip;

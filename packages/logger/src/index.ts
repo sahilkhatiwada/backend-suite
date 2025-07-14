@@ -11,13 +11,22 @@ import type { StreamEntry } from 'pino';
 
 const loggers = new Map<string, Logger>();
 
+/**
+ * Options for creating a logger instance.
+ */
 export interface CreateLoggerOptions extends LoggerOptions {
+  /** Enable pretty output (requires pino-pretty) */
   pretty?: boolean;
+  /** Log to file (provide file path) */
   file?: string;
 }
 
 /**
- * Create a named logger instance
+ * Create a named logger instance. Returns the same instance for the same name.
+ *
+ * @param name - Logger name (namespace)
+ * @param options - Logger options (level, pretty, file, etc.)
+ * @returns Pino logger instance
  */
 export function createLogger(name: string, options: CreateLoggerOptions = {}): Logger {
   if (loggers.has(name)) return loggers.get(name)!;
@@ -43,7 +52,10 @@ export function createLogger(name: string, options: CreateLoggerOptions = {}): L
 }
 
 /**
- * Get a logger by name
+ * Get a logger by name.
+ *
+ * @param name - Logger name
+ * @returns Logger instance or undefined if not created
  */
 export function getLogger(name: string): Logger | undefined {
   return loggers.get(name);

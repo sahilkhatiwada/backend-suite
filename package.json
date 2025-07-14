@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "turbo run test"
   },
   "keywords": [],
   "author": "sahil khatiwada",
@@ -12,6 +12,8 @@
   "packageManager": "pnpm@10.4.1",
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
+    "@types/express": "^5.0.3",
+    "@types/koa": "^2.15.0",
     "@types/node": "^24.0.13",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",

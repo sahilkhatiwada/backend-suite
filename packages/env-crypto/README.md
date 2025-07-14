@@ -8,6 +8,11 @@ Encrypt and decrypt .env files using AES-256. Supports CLI and programmatic API.
 - AES-256 encryption
 - CLI and programmatic usage
 
+## Installation
+```sh
+pnpm add @backend-suite/env-crypto
+```
+
 ## Usage
 
 ### CLI
@@ -25,5 +30,12 @@ decryptEnvFile('.env.enc', '.env', 'password');
 ```
 
 ## API
-- `encryptEnvFile(inputPath, outputPath, password)`
-- `decryptEnvFile(inputPath, outputPath, password)` 
+
+### `encryptEnvFile(inputPath: string, outputPath: string, password: string): void`
+Encrypts a .env file using AES-256 and writes the result to outputPath.
+
+### `decryptEnvFile(inputPath: string, outputPath: string, password: string): void`
+Decrypts a .env.enc file using AES-256 and writes the result to outputPath.
+
+## License
+MIT 

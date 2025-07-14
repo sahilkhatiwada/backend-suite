@@ -19,7 +19,7 @@
     "winston",
     "structured-logging"
   ],
-  "author": "",
+  "author": "sahil khatiwada",
   "license": "MIT",
   "dependencies": {
     "pino": "^9.7.0",

@@ -8,19 +8,41 @@ Structured logger with Pino wrapper, multiple output modes, and named instances.
 - JSON, pretty, and file transports
 - Ready for APM/Sentry integration
 
+## Installation
+```sh
+pnpm add @backend-suite/logger
+```
+
 ## Usage
 
-### Programmatic
+### Basic
 ```ts
-import { createLogger, getLogger } from '@backend-suite/logger';
-
+import { createLogger } from '@backend-suite/logger';
 const logger = createLogger('my-service', { level: 'info' });
 logger.info('Hello, world!');
+```
 
-const sameLogger = getLogger('my-service');
-sameLogger.error('Something went wrong');
+### Pretty Output
+```ts
+const logger = createLogger('pretty', { pretty: true });
+logger.info('Pretty log!');
+```
+
+### File Output
+```ts
+const logger = createLogger('file', { file: './logs/app.log' });
+logger.info('This goes to a file');
+```
+
+### Get Logger by Name
+```ts
+import { getLogger } from '@backend-suite/logger';
+const logger = getLogger('my-service');
 ```
 
 ## API
 - `createLogger(name, options)`
-- `getLogger(name)` 
+- `getLogger(name)`
+
+## License
+MIT 

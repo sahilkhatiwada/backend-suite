@@ -19,7 +19,7 @@
     "aes",
     "crypto"
   ],
-  "author": "",
+  "author": "sahil khatiwada",
   "license": "MIT",
   "dependencies": {
     "crypto-js": "^4.2.0",

@@ -14,6 +14,10 @@ import { hideBin } from 'yargs/helpers';
 
 /**
  * Encrypts a .env file using AES-256.
+ *
+ * @param inputPath - Path to the input .env file
+ * @param outputPath - Path to write the encrypted .env.enc file
+ * @param password - Password for encryption
  */
 export function encryptEnvFile(inputPath: string, outputPath: string, password: string): void {
   const absInput = path.resolve(inputPath);
@@ -25,6 +29,11 @@ export function encryptEnvFile(inputPath: string, outputPath: string, password: 
 
 /**
  * Decrypts a .env.enc file using AES-256.
+ *
+ * @param inputPath - Path to the input .env.enc file
+ * @param outputPath - Path to write the decrypted .env file
+ * @param password - Password for decryption
+ * @throws If decryption fails (wrong password or corrupted file)
  */
 export function decryptEnvFile(inputPath: string, outputPath: string, password: string): void {
   const absInput = path.resolve(inputPath);

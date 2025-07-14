@@ -20,7 +20,7 @@
     "express",
     "koa"
   ],
-  "author": "",
+  "author": "sahil khatiwada",
   "license": "MIT",
   "dependencies": {
     "express": "^5.1.0",
