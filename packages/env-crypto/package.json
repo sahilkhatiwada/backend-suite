@@ -1,6 +1,6 @@
 {
   "name": "@backend-suite/env-crypto",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Encrypt/decrypt .env files with AES-256, CLI and programmatic API.",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
