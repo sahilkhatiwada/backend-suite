@@ -28,17 +28,17 @@ export function diffSchemas(source: Schema, target: Schema): SchemaDiff {
 
 /**
  * Sync target schema to match source schema (shallow merge).
+ * For each key in target, use value from source if present, else from target.
  * @param source - The source schema
  * @param target - The target schema
  * @returns The synced schema
  */
 export function syncSchemas(source: Schema, target: Schema): Schema {
-  const diff = diffSchemas(source, target);
-  const synced = { ...target };
-  for (const k of diff.added) synced[k] = source[k];
-  for (const k of diff.changed) synced[k] = source[k];
-  for (const k of diff.removed) delete synced[k];
-  return synced;
+  const result: Schema = {};
+  for (const key of Object.keys(target)) {
+    result[key] = key in source ? source[key] : target[key];
+  }
+  return result;
 }
 
 /**

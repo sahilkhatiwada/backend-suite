@@ -22,6 +22,7 @@ export interface AuthResult {
 // In-memory user store (for demo/testing)
 const users = new Map<string, User>();
 const refreshTokens = new Set<string>();
+const refreshTokenBlacklist = new Set<string>();
 
 /**
  * Register a new user with username and password.
@@ -120,19 +121,26 @@ export function generateRefreshToken(user: User, secret: Secret, expiresIn: stri
  * Verify a refresh token and check blacklist.
  * @param token - The refresh token
  * @param secret - The JWT secret
- * @returns The decoded payload if valid, throws if invalid
+ * @returns The user if valid and not blacklisted, null otherwise
  */
-export function verifyRefreshToken(token: string, secret: Secret): any {
-  // Optionally check blacklist here
-  return jwt.verify(token, secret);
+export function verifyRefreshToken(token: string, secret: Secret): User | null {
+  if (refreshTokenBlacklist.has(token)) return null;
+  try {
+    const payload = jwt.verify(token, secret) as any;
+    if (payload.type !== 'refresh') return null;
+    const user = users.get(payload.sub);
+    return user || null;
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Blacklist a refresh token (logout).
- * @param token - The refresh token
+ * Blacklist a refresh token (invalidate it).
+ * @param token - The refresh token to blacklist
  */
 export function blacklistRefreshToken(token: string): void {
-  refreshTokens.delete(token);
+  refreshTokenBlacklist.add(token);
 }
 
 /**

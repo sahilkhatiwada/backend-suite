@@ -47,7 +47,7 @@ describe('auth-core', () => {
   });
 
   it('generates, verifies, and blacklists refresh tokens', () => {
-    const user = { id: 'u2', username: 'u2', passwordHash: '' };
+    const user = registerUser('u2', 'pw');
     const token = generateRefreshToken(user, SECRET);
     expect(verifyRefreshToken(token, SECRET)?.id).toBe('u2');
     blacklistRefreshToken(token);
