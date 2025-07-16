@@ -1,0 +1,27 @@
+{
+  "name": "@backend-suite/abuse-detector",
+  "version": "0.2.0",
+  "description": "Extensible abuse detection and prevention toolkit for backend services.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest"
+  },
+  "keywords": ["abuse", "detection", "rate-limit", "security", "backend", "nodejs"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^0.34.0",
+    "tsup": "^8.0.0"
+  }
+} 

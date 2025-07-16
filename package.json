@@ -1,6 +1,6 @@
 {
   "name": "backend-suite",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,26 @@
       "pre-commit": "lint-staged"
     }
   },
-  "keywords": [],
+  "keywords": [
+    "backend",
+    "typescript",
+    "monorepo",
+    "nodejs",
+    "api",
+    "security",
+    "authentication",
+    "rate-limiter",
+    "logger",
+    "database",
+    "multi-tenant",
+    "validation",
+    "event-bus",
+    "queue",
+    "webhook",
+    "testing",
+    "abuse-detection",
+    "open-source"
+  ],
   "author": "sahil khatiwada",
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
@@ -33,6 +52,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/koa": "^2.15.0",
     "@types/node": "^24.0.13",
+    "@types/pg": "^8.15.4",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "eslint": "^9.31.0",

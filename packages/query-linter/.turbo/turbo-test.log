@@ -5,15 +5,15 @@
 
 [1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mC:/Users/ACER/Desktop/backend-suite/packages/query-linter[39m
 
- [31m❯[39m test/index.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m3 failed[39m[2m | [22m[33m2 skipped[39m[2m)[22m[32m 58[2mms[22m[39m
+ [31m❯[39m test/index.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m3 failed[39m[2m | [22m[33m2 skipped[39m[2m)[22m[32m 116[2mms[22m[39m
    [2m[90m↓[39m[22m lintQuery[2m > [22mshould return lint errors for bad SQL
    [2m[90m↓[39m[22m lintQuery[2m > [22mshould return no errors for good SQL
-   [32m✓[39m lintQuery[2m > [22mshould return no errors for valid JSON[32m 3[2mms[22m[39m
-   [32m✓[39m lintQuery[2m > [22mshould return errors for invalid JSON[32m 1[2mms[22m[39m
-[31m   [31m×[31m lintQuery[2m > [22mshould return no errors for valid MongoDB[39m[32m 12[2mms[22m[39m
+   [32m✓[39m lintQuery[2m > [22mshould return no errors for valid JSON[32m 4[2mms[22m[39m
+   [32m✓[39m lintQuery[2m > [22mshould return errors for invalid JSON[32m 3[2mms[22m[39m
+[31m   [31m×[31m lintQuery[2m > [22mshould return no errors for valid MongoDB[39m[32m 15[2mms[22m[39m
 [31m     → expected [ Array(1) ] to include 'No lint errors'[39m
-   [32m✓[39m lintQuery[2m > [22mshould return errors for invalid MongoDB[32m 1[2mms[22m[39m
-[31m   [31m×[31m beautifyQuery[2m > [22mshould beautify SQL[39m[32m 38[2mms[22m[39m
+   [32m✓[39m lintQuery[2m > [22mshould return errors for invalid MongoDB[32m 2[2mms[22m[39m
+[31m   [31m×[31m beautifyQuery[2m > [22mshould beautify SQL[39m[32m 88[2mms[22m[39m
 [31m     → expected 'select\n  *\nfrom\n  users\nwhere\n  …' to match /SELECT \*/i[39m
    [32m✓[39m beautifyQuery[2m > [22mshould beautify JSON[32m 0[2mms[22m[39m
 [31m   [31m×[31m beautifyQuery[2m > [22mshould beautify MongoDB[39m[32m 1[2mms[22m[39m
@@ -42,18 +42,12 @@
 [31m+ Received:[39m 
 "select
   *
-
 from
   users
 where
-[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
   id = 1"
 
-[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[2m | [22m[33m2 skipped[39m[90m (9)[39m
 [36m [2m❯[22m test/index.test.ts:[2m59:20[22m[39m
-[2m   Start at [22m 21:00:16
-[2m   Duration [22m 1.21s[2m (transform 72ms, setup 0ms, collect 399ms, tests 58ms, environment 0ms, prepare 198ms)[22m
-
     [90m 57| [39m    [35mconst[39m ugly [33m=[39m [32m'select * from users where id=1'[39m[33m;[39m
     [90m 58| [39m    [35mconst[39m pretty [33m=[39m [34mbeautifyQuery[39m(ugly[33m,[39m [32m'sql'[39m)[33m;[39m
     [90m 59| [39m    [34mexpect[39m(pretty)[33m.[39m[34mtoMatch[39m([36m/SELECT \*/i[39m)[33m;[39m
@@ -61,13 +55,19 @@ where
     [90m 60| [39m    [34mexpect[39m(pretty)[33m.[39m[34mtoMatch[39m([36m/FROM users/i[39m)[33m;[39m
     [90m 61| [39m  })[33m;[39m
 
+
 [31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
 
 [41m[1m FAIL [22m[49m test/index.test.ts[2m > [22mbeautifyQuery[2m > [22mshould beautify MongoDB
 [31m[1mAssertionError[22m: expected '{ find: "users", filter: { age: { $gt…' to match /\n/[39m
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
 
 [32m- Expected:[39m 
 /\n/
+
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[2m | [22m[33m2 skipped[39m[90m (9)[39m
+[2m   Start at [22m 21:09:32
+[2m   Duration [22m 3.41s[2m (transform 136ms, setup 0ms, collect 1.42s, tests 116ms, environment 0ms, prepare 618ms)[22m
 
 [31m+ Received:[39m 
 "{ find: \"users\", filter: { age: { $gt: 18 } } }"

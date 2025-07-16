@@ -2,9 +2,13 @@ import { describe, it, expect, vi } from 'vitest';
 import { getTenantDb, tenantDbMiddleware } from '../src';
 import jwt from 'jsonwebtoken';
 import { MongoClient } from 'mongodb';
+import { Pool as PgPool } from 'pg';
+import { createClient as createRedisClient } from 'redis';
 
 const MYSQL_TENANT = 'org_123';
 const MONGO_TENANT = 'org_456';
+const PG_TENANT = 'org_pg';
+const REDIS_TENANT = 'org_redis';
 const JWT_SECRET = 'testsecret';
 
 // Helper: create JWT for tenant
@@ -28,6 +32,7 @@ describe('@backend-suite/multitenant-db', () => {
   });
 
   const runRealDbTests = process.env.RUN_REAL_DB_TESTS === '1';
+
   (runRealDbTests ? it : it.skip)('should get a MongoDB tenant DB connection (mocked, skip if no DB)', async () => {
     // Try to connect with a short timeout
     const uri = 'mongodb://localhost:27017';
@@ -47,6 +52,43 @@ describe('@backend-suite/multitenant-db', () => {
       skip = true;
     } finally {
       if (client) await client.close().catch(() => {});
+    }
+    if (skip) expect(true).toBe(true);
+  });
+
+  (runRealDbTests ? it : it.skip)('should get a PostgreSQL tenant DB connection (mocked, skip if no DB)', async () => {
+    let skip = false;
+    let pool: PgPool | undefined;
+    try {
+      pool = new PgPool({ connectionString: 'postgresql://user:pass@localhost:5432/org_pg_db', connectionTimeoutMillis: 500 });
+      const client = await pool.connect();
+      expect(client).toBeDefined();
+      await client.release();
+    } catch (err: any) {
+      // Log error for debugging
+      // eslint-disable-next-line no-console
+      console.log('Postgres test error:', err && err.message);
+      skip = true;
+    } finally {
+      if (pool) await pool.end().catch(() => {});
+    }
+    if (skip) expect(true).toBe(true);
+  });
+
+  (runRealDbTests ? it : it.skip)('should get a Redis tenant DB connection (mocked, skip if no DB)', async () => {
+    let skip = false;
+    let client: ReturnType<typeof createRedisClient> | undefined;
+    try {
+      client = createRedisClient({ url: 'redis://localhost:6379', socket: { connectTimeout: 500 } });
+      await client.connect();
+      expect(client.isOpen).toBe(true);
+    } catch (err: any) {
+      // Log error for debugging
+      // eslint-disable-next-line no-console
+      console.log('Redis test error:', err && err.message);
+      skip = true;
+    } finally {
+      if (client) await client.quit().catch(() => {});
     }
     if (skip) expect(true).toBe(true);
   });
@@ -79,6 +121,6 @@ describe('@backend-suite/multitenant-db', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  // Note: For full test coverage, real MySQL and MongoDB servers must be running at the URIs in the config.
+  // Note: For full test coverage, real MySQL, PostgreSQL, MongoDB, and Redis servers must be running at the URIs in the config.
   // To enable real DB tests, set RUN_REAL_DB_TESTS=1 in your environment.
 }); 

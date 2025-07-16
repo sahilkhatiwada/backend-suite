@@ -1,0 +1,27 @@
+{
+  "name": "@backend-suite/ai-cli-tools",
+  "version": "0.1.0",
+  "description": "OpenAI-powered CLI for backend code audit, explanation, and testing.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "pnpm build && vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["cli", "openai", "gpt", "backend", "audit", "explain", "test"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.30.0",
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "vitest": "^0.34.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+} 

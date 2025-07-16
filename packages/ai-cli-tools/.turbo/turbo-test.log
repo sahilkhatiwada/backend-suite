@@ -1,0 +1,19 @@
+
+> @backend-suite/ai-cli-tools@0.1.0 test C:\Users\ACER\Desktop\backend-suite\packages\ai-cli-tools
+> pnpm build && vitest
+
+
+> @backend-suite/ai-cli-tools@0.1.0 build C:\Users\ACER\Desktop\backend-suite\packages\ai-cli-tools
+> tsup src/index.ts --dts --format cjs,esm
+
+[34mCLI[39m Building entry: src/index.ts
+[34mCLI[39m Using tsconfig: tsconfig.json
+[34mCLI[39m tsup v8.5.0
+[34mCLI[39m Target: es2020
+[34mCJS[39m Build start
+[34mESM[39m Build start
+[32mCJS[39m [1mdist\index.js [22m[32m3.56 KB[39m
+[32mCJS[39m ⚡️ Build success in 405ms
+[32mESM[39m [1mdist\index.mjs [22m[32m2.30 KB[39m
+[32mESM[39m ⚡️ Build success in 411ms
+[34mDTS[39m Build start

@@ -3,15 +3,17 @@
  * @module @backend-suite/multitenant-db
  *
  * Multi-tenant database connection manager for Node.js backends.
- * Supports dynamic DB switching (MySQL, MongoDB) per tenant, JWT-based middleware, and connection pooling.
+ * Supports dynamic DB switching (MySQL, PostgreSQL, MongoDB, Redis) per tenant, JWT-based middleware, and connection pooling.
  */
 
-import mysql, { Pool, PoolConnection } from 'mysql2/promise';
+import mysql, { Pool as MySqlPool, PoolConnection as MySqlConnection } from 'mysql2/promise';
 import { MongoClient, Db as MongoDb } from 'mongodb';
+import { Pool as PgPool, PoolClient as PgConnection } from 'pg';
+import { createClient as createRedisClient, RedisClientType } from 'redis';
 import jwt from 'jsonwebtoken';
 
 /** Supported database types */
-export type TenantDbType = 'mysql' | 'mongodb';
+export type TenantDbType = 'mysql' | 'postgres' | 'mongodb' | 'redis';
 
 /**
  * Tenant database configuration
@@ -19,17 +21,19 @@ export type TenantDbType = 'mysql' | 'mongodb';
 export interface TenantDbConfig {
   tenantId: string;
   type: TenantDbType;
-  uri: string; // MySQL or MongoDB connection string
-  dbName?: string; // For MongoDB
+  uri: string; // Connection string for all DBs
+  dbName?: string; // For MongoDB/Postgres
   user?: string;
   password?: string;
 }
 
 /**
- * MySQL and MongoDB connection types
+ * Connection types for supported DBs
  */
-export type MySQLConnection = PoolConnection;
+export type MySQLConnection = MySqlConnection;
+export type PostgresConnection = PgConnection;
 export type MongoDBConnection = MongoDb;
+export type RedisConnection = RedisClientType<any, any, any>;
 
 /**
  * Custom error for tenant DB issues
@@ -66,6 +70,16 @@ const tenantConfigDb: Record<string, TenantDbConfig> = {
     uri: 'mongodb://localhost:27017',
     dbName: 'org_456_db',
   },
+  'org_pg': {
+    tenantId: 'org_pg',
+    type: 'postgres',
+    uri: 'postgresql://user:pass@localhost:5432/org_pg_db',
+  },
+  'org_redis': {
+    tenantId: 'org_redis',
+    type: 'redis',
+    uri: 'redis://localhost:6379',
+  },
 };
 
 /**
@@ -80,36 +94,54 @@ export async function fetchTenantDbConfig(tenantId: string): Promise<TenantDbCon
 /**
  * Internal connection pools/caches
  */
-const mysqlPools: Record<string, Pool> = {};
+const mysqlPools: Record<string, MySqlPool> = {};
+const pgPools: Record<string, PgPool> = {};
 const mongoClients: Record<string, MongoClient> = {};
+const redisClients: Record<string, RedisConnection> = {};
 
 /**
  * Get a database connection for a given tenant.
  * @param tenantId - The tenant's unique identifier
- * @returns MySQL or MongoDB connection instance
+ * @returns MySQL, PostgreSQL, MongoDB, or Redis connection instance
  * @throws TenantDbError if config is missing or DB type is unsupported
  */
 export async function getTenantDb(
   tenantId: string
-): Promise<MySQLConnection | MongoDBConnection> {
+): Promise<MySQLConnection | PostgresConnection | MongoDBConnection | RedisConnection> {
   const config = await fetchTenantDbConfig(tenantId);
   if (!config) throw new TenantDbError(`No DB config found for tenant: ${tenantId}`);
 
-  if (config.type === 'mysql') {
-    if (!mysqlPools[tenantId]) {
-      mysqlPools[tenantId] = mysql.createPool(config.uri);
+  switch (config.type) {
+    case 'mysql': {
+      if (!mysqlPools[tenantId]) {
+        mysqlPools[tenantId] = mysql.createPool(config.uri);
+      }
+      return mysqlPools[tenantId].getConnection();
     }
-    return mysqlPools[tenantId].getConnection();
-  }
-  if (config.type === 'mongodb') {
-    if (!mongoClients[tenantId]) {
-      mongoClients[tenantId] = new MongoClient(config.uri);
-      await mongoClients[tenantId].connect();
+    case 'postgres': {
+      if (!pgPools[tenantId]) {
+        pgPools[tenantId] = new PgPool({ connectionString: config.uri });
+      }
+      return pgPools[tenantId].connect();
     }
-    if (!config.dbName) throw new TenantDbError('Missing dbName for MongoDB tenant');
-    return mongoClients[tenantId].db(config.dbName);
+    case 'mongodb': {
+      if (!mongoClients[tenantId]) {
+        mongoClients[tenantId] = new MongoClient(config.uri);
+        await mongoClients[tenantId].connect();
+      }
+      if (!config.dbName) throw new TenantDbError('Missing dbName for MongoDB tenant');
+      return mongoClients[tenantId].db(config.dbName);
+    }
+    case 'redis': {
+      if (!redisClients[tenantId]) {
+        redisClients[tenantId] = createRedisClient({ url: config.uri });
+        await redisClients[tenantId].connect();
+      }
+      return redisClients[tenantId];
+    }
+    default:
+      throw new TenantDbError(`Unsupported DB type: ${config.type}`);
   }
-  throw new TenantDbError(`Unsupported DB type: ${config.type}`);
 }
 
 /**
@@ -126,7 +158,7 @@ export interface TenantDbMiddlewareOptions {
    * Optionally override how the DB connection is attached to the request
    * @default (req, db) => { req.tenantDb = db; }
    */
-  attachDbToRequest?: (req: any, db: MySQLConnection | MongoDBConnection) => void;
+  attachDbToRequest?: (req: any, db: MySQLConnection | PostgresConnection | MongoDBConnection | RedisConnection) => void;
 }
 
 /**
