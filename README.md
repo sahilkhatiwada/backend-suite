@@ -4,18 +4,19 @@
 
 A single TypeScript-based monorepo offering modular, framework-agnostic, production-ready NPM packages under the scope `@backend-suite/*`.
 
-Each package is designed to solve a specific backend pain point — from environment management, schema syncing, and rate limiting to structured logging, authentication, webhooks, and job orchestration.
+Each package is designed to solve a specific backend pain point — from environment management, schema syncing, and rate limiting to structured logging, authentication, webhooks, job orchestration, multi-tenancy, validation, and more.
 
 ---
 
 ## Features
 - Modular, composable packages for backend development
 - TypeScript-first, strict settings
-- Production-ready utilities: env encryption, rate limiting, logging, schema management, authentication, webhooks, queues, and more
+- Production-ready utilities: env encryption, rate limiting, logging, schema management, authentication, webhooks, queues, multi-tenancy, validation, and more
 - Monorepo managed with TurboRepo and PNPM
 - Shared linting and formatting (ESLint, Prettier)
-- Comprehensive tests (Vitest)
+- Comprehensive tests (Vitest) with robust automation and DB test skipping
 - Automated versioning and publishing (Changesets, GitHub Actions)
+- **All packages at version 0.2.0**
 
 ---
 
@@ -24,9 +25,19 @@ Each package is designed to solve a specific backend pain point — from environ
 - [`@backend-suite/rate-limiter`](./packages/rate-limiter) — Token bucket, Redis adapter, Express/Koa middleware
 - [`@backend-suite/logger`](./packages/logger) — Structured logging with Pino
 - [`@backend-suite/auth-core`](./packages/auth-core) — In-memory user store, registration, authentication, JWT
+- [`@backend-suite/auth-kit`](./packages/auth-kit) — Auth utilities and helpers (extension kit)
 - [`@backend-suite/schema-manager`](./packages/schema-manager) — Schema diff, sync, migration generation
 - [`@backend-suite/webhook-center`](./packages/webhook-center) — Webhook registration, delivery, retry
 - [`@backend-suite/queue-worker`](./packages/queue-worker) — In-memory job queue, concurrency, retry
+- [`@backend-suite/json-schema-tools`](./packages/json-schema-tools) — TypeScript ↔ JSON Schema conversion
+- [`@backend-suite/query-linter`](./packages/query-linter) — Lint and beautify SQL, MongoDB, and JSON queries
+- [`@backend-suite/api-security`](./packages/api-security) — Security utilities for APIs
+- [`@backend-suite/dev-mirror`](./packages/dev-mirror) — Dev environment mirroring tools
+- [`@backend-suite/event-bus`](./packages/event-bus) — Simple event bus for pub/sub
+- [`@backend-suite/file-handler`](./packages/file-handler) — File upload/download helpers
+- [`@backend-suite/multitenant-db`](./packages/multitenant-db) — Multi-tenant DB connection manager (MySQL, MongoDB, JWT middleware)
+- [`@backend-suite/request-validator`](./packages/request-validator) — API input validation (Zod/Yup)
+- [`@backend-suite/test-kit`](./packages/test-kit) — Backend testing utilities: mock req/res, seed DBs, snapshot testing
 
 ---
 
@@ -87,6 +98,26 @@ processQueue('emails', async (job) => {
   // send email logic
   console.log('Processing job:', job);
 }, 2, 3); // concurrency: 2, maxRetries: 3
+
+// --- Multi-Tenant DB (Express example) ---
+import { tenantDbMiddleware } from '@backend-suite/multitenant-db';
+app.use(tenantDbMiddleware({ jwtSecret: 'your_jwt_secret' }));
+app.get('/data', async (req, res) => {
+  const db = req.tenantDb; // MySQL or MongoDB connection
+  // ... use db for queries ...
+});
+
+// --- Request Validation ---
+import { validateRequest } from '@backend-suite/request-validator';
+import { z } from 'zod';
+const schema = z.object({ name: z.string(), age: z.number() });
+const isValid = validateRequest(schema, { name: 'Alice', age: 30 });
+
+// --- Test Kit ---
+import { mockRequest, mockResponse, seedDatabase } from '@backend-suite/test-kit';
+const req = mockRequest({ method: 'GET' });
+const res = mockResponse();
+seedDatabase({ users: [{ id: 1, name: 'Alice' }] });
 ```
 
 ---
@@ -100,7 +131,7 @@ processQueue('emails', async (job) => {
 
 ## Contributing
 - All packages must be in TypeScript
-- Tests via Vitest
+- Tests via Vitest (DB tests are skipped unless enabled)
 - Build via tsup
 - Follow Conventional Commits
 - PRs and issues welcome!
