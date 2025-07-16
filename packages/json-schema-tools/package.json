@@ -1,0 +1,24 @@
+{
+  "name": "@backend-suite/json-schema-tools",
+  "version": "0.1.0",
+  "description": "Convert TypeScript to JSON Schema and vice versa for docs and validation.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["json-schema", "typescript", "validation", "docs", "convert"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {
+    "typescript-json-schema": "^0.61.0",
+    "json-schema-to-typescript": "^10.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30"
+  }
+} 

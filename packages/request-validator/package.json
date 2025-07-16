@@ -1,0 +1,21 @@
+{
+  "name": "@backend-suite/request-validator",
+  "version": "0.1.0",
+  "description": "API input validation powered by Zod/Yup for runtime validation.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["validation", "zod", "yup", "api", "input"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.4",
+    "yup": "^1.2.0"
+  }
+} 

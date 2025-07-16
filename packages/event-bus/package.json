@@ -1,0 +1,17 @@
+{
+  "name": "@backend-suite/event-bus",
+  "version": "0.1.0",
+  "description": "Event-driven microservice SDK: Kafka, NATS, RabbitMQ abstraction.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["event-bus", "microservice", "kafka", "nats", "rabbitmq", "sdk"],
+  "author": "sahil khatiwada",
+  "license": "MIT"
+} 

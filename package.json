@@ -1,6 +1,6 @@
 {
   "name": "backend-suite",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,10 @@
     "build": "turbo run build"
   },
   "lint-staged": {
-    "*.ts": ["eslint --fix", "prettier --write"]
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "husky": {
     "hooks": {
@@ -37,5 +40,8 @@
     "tsup": "^8.5.0",
     "turbo": "^2.5.4",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
   }
 }

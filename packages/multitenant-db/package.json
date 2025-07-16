@@ -1,0 +1,22 @@
+{
+  "name": "@backend-suite/multitenant-db",
+  "version": "0.2.0",
+  "description": "Dynamically switch databases per user or organization for multi-tenant architectures.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["multi-tenant", "database", "switch", "user", "organization"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^3.9.7",
+    "mongodb": "^6.5.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+} 

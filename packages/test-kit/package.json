@@ -1,0 +1,17 @@
+{
+  "name": "@backend-suite/test-kit",
+  "version": "0.1.0",
+  "description": "Backend testing utilities: mock req/res, seed DBs, snapshot testing.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["test", "mock", "snapshot", "seed", "backend"],
+  "author": "sahil khatiwada",
+  "license": "MIT"
+} 

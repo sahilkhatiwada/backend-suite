@@ -1,0 +1,26 @@
+{
+  "name": "@backend-suite/file-handler",
+  "version": "0.1.0",
+  "description": "Toolkit for local and S3 file uploads, metadata, and validation.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["file", "upload", "s3", "metadata", "validation", "toolkit"],
+  "author": "sahil khatiwada",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "aws-sdk": "^2.1564.0",
+    "mime-types": "^2.1.35"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/mime-types": "^2.1.4"
+  }
+} 

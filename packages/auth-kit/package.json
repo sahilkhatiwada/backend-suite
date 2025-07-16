@@ -1,0 +1,17 @@
+{
+  "name": "@backend-suite/auth-kit",
+  "version": "0.1.0",
+  "description": "Modular authentication toolkit: JWT, OAuth2, RBAC, scopes.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --dts --format cjs,esm",
+    "test": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": ["auth", "jwt", "oauth2", "rbac", "scopes", "toolkit"],
+  "author": "sahil khatiwada",
+  "license": "MIT"
+} 
